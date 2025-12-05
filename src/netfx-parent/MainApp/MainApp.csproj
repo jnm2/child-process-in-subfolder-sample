@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net4.8</TargetFramework>
+    <LangVersion>14</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ChildProcess\ChildProcess.csproj" ReferenceOutputAssembly="False" />
+  </ItemGroup>
+
+  <Target Name="IncludeChildProcessOutputFiles" AfterTargets="ResolveProjectReferences" BeforeTargets="AssignTargetPaths">
+    <ItemGroup>
+      <ChildProcessOutputFiles Include="..\ChildProcess\bin\$(Configuration)\**\*" />
+      <None Include="@(ChildProcessOutputFiles)">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <Link>ChildProcessSubfolder\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      </None>
+    </ItemGroup>
+  </Target>
+
+</Project>
